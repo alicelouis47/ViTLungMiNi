@@ -1,0 +1,7 @@
+datasets
+huggingface-hub
+streamlit
+torch
+torchaudio
+torchvision
+transformers
