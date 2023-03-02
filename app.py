@@ -8,16 +8,21 @@ labels = ["adenocarcinoma","large.cell.carcinoma","normal","squamous.cell.carcin
 model_name_or_path = 'alicelouis/ViTLungMiNi'
 
 
-feature_extractor = ViTImageProcessor.from_pretrained(model_name_or_path)
+@st.cache(allow_output_mutation=True,show_spinner=False,ttl=1800,max_entries=2,persist=True)
+def FeatureExtractor(model_name_or_path):
+    feature_extractor = ViTImageProcessor.from_pretrained(model_name_or_path)
+    return feature_extractor
 
 
-model = ViTForImageClassification.from_pretrained(
-    model_name_or_path,
-    num_labels=len(labels),
-    id2label={str(i): c for i, c in enumerate(labels)},
-    label2id={c: str(i) for i, c in enumerate(labels)},
-    ignore_mismatched_sizes=True
-)
+@st.cache(allow_output_mutation=True,show_spinner=False,ttl=1800,max_entries=2,persist=True)
+def LoadModel(model_name_or_path):
+    model = ViTForImageClassification.from_pretrained(
+        model_name_or_path,
+        num_labels=len(labels),
+        id2label={str(i): c for i, c in enumerate(labels)},
+        label2id={c: str(i) for i, c in enumerate(labels)},
+        ignore_mismatched_sizes=True)
+    return model
     
 # end def
 with st.sidebar:
@@ -49,6 +54,9 @@ st.markdown(hide_table_index, unsafe_allow_html=True)
 uploaded_file = st.file_uploader("อัปโหลดไฟล์ภาพ")
 
 if uploaded_file is not None:
+    model_name_or_path = 'alicelouis/ViTLungMiNi'
+    feature_extractor = FeatureExtractor(model_name_or_path)
+    model = LoadModel(model_name_or_path)
     img = Image.open(uploaded_file)
     img_out = img
     img_out = np.array(img_out)
