@@ -8,4 +8,3 @@ transformers
 grad-cam
 streamlit_echarts
 streamlit-on-Hover-tabs
-opencv-python==4.7.0.68
