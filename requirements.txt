@@ -5,3 +5,6 @@ torch
 torchaudio
 torchvision
 transformers
+grad-cam
+streamlit_echarts
+st_on_hover_tabs
