@@ -91,6 +91,7 @@ def load_data():
     data = data_base
     return data
 
+
 @st.cache_resource(show_spinner=False,ttl=1800,max_entries=2)
 def FeatureExtractor(model_name_or_path):
     feature_extractor = ViTImageProcessor.from_pretrained(model_name_or_path)
@@ -175,34 +176,8 @@ data_base = []
 if tabs == 'Home':
     st.image('How_to_use.png',use_column_width=True)
 
-elif tabs == 'Upload' and len(load_data()) == 4:
-    dff_image_path = r'.\save_images\dff_image.png'
-    gradcam_image_path = r'.\save_images\gradcam_image.png'
-    def display_images(dff_image_path, gradcam_image_path):
-        # open the images
-        dff_image = Image.open(dff_image_path)
-        gradcam_image = Image.open(gradcam_image_path)
-        # display the images on Streamlit
-        st.markdown(
-                """
-            <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                <h1 style='text-align: center; color: black;'> DFF Image </h1>
-            </div>
-                """, unsafe_allow_html=True)
-        st.image(dff_image, use_column_width=True)
-        st.markdown(
-                """
-            <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                <h1 style='text-align: center; color: black;'> Gradcam Image </h1>
-            </div>
-                """, unsafe_allow_html=True)
-        st.image(gradcam_image, use_column_width=True)
-    display_images(dff_image_path, gradcam_image_path)  
-
-elif tabs =='Upload':
-
+elif tabs == 'Upload' and len(load_data()) != 4:
     uploaded_file = st.file_uploader("อัปโหลดไฟล์ภาพ")
-
     if uploaded_file is not None:
             model_name_or_path = 'alicelouis/ViTLungMiNi'
             feature_extractor = FeatureExtractor(model_name_or_path)
@@ -272,11 +247,9 @@ elif tabs =='Upload':
                                     input_image=image_resized,
                                     reshape_transform=reshape_transform_vit_huggingface))
             st.image(gradcam_image, use_column_width=True)
-
             # save the images to disk
             dff_image.save(r".\save_images\gradcam_image.png")
             gradcam_image.save(r".\save_images\gradcam_image.png")
-
             topK = print_top_categories(model, tensor_resized)
             df = pd.DataFrame.from_dict(topK, orient='index')
             list_to_be_sorted= []
@@ -285,15 +258,9 @@ elif tabs =='Upload':
                 dic["value"] = y
                 dic["name"] = x
                 list_to_be_sorted.append(dic)
-                data_base.append(y)
-
-            print(load_data())
-            # list_to_be_sorted= [
-            # { "value": 335, "name": 'Direct' },
-            # { "value": 310, "name": 'Email' },
-            # { "value": 274, "name": 'Union Ads' },
-            # { "value": 235, "name": 'Video Ads' },
-            # { "value": 400, "name": 'Search Engine' }]
+            data_base = load_data(data_base)
+            print(data_base)
+            #sorted
             newlist = sorted(list_to_be_sorted, key=lambda d: d['value']) 
             st.balloons()
 
@@ -374,8 +341,36 @@ elif tabs == 'Analytics':
 }
     st_echarts(options=option)  
 
-
-
+elif tabs == 'Upload' and len(load_data()) == 4:
+    dff_image_path = r'.\save_images\dff_image.png'
+    gradcam_image_path = r'.\save_images\gradcam_image.png'
+    def display_images(dff_image_path, gradcam_image_path):
+        # open the images
+        dff_image = Image.open(dff_image_path)
+        gradcam_image = Image.open(gradcam_image_path)
+        # display the images on Streamlit
+        st.markdown(
+                """
+            <div style='border: 2px solid red; border-radius: 15px; padding: 5px; background-color: white;'>
+                <h1 style='text-align: center; color: black;'> DFF Image </h1>
+            </div>
+                """, unsafe_allow_html=True)
+        st.image(dff_image, use_column_width=True)
+        st.markdown(
+                """
+            <div style='border: 2px solid red; border-radius: 15px; padding: 5px; background-color: white;'>
+                <h1 style='text-align: center; color: black;'> Gradcam Image </h1>
+            </div>
+                """, unsafe_allow_html=True)
+        st.image(gradcam_image, use_column_width=True)
+    display_images(dff_image_path, gradcam_image_path)  
+    st.button("Rerun")
+            
+        # data_base_1 = []
+        # data_1 = load_data()
+        # print(data_1)
+        # os.remove('.\save_images\dff_image.png')
+        # os.remove('.\save_images\gradcam_image.png')
 
                     
             
