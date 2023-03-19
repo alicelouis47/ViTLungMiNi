@@ -190,7 +190,6 @@ if tabs == 'Home':
 elif tabs == 'Upload' and count_system () != 1:
     uploaded_file = st.file_uploader("อัปโหลดไฟล์ภาพ")
     if uploaded_file is not None:
-            model_name_or_path = 'alicelouis/ViTLungMiNi'
             feature_extractor = FeatureExtractor(model_name_or_path)
             model = LoadModel(model_name_or_path)
             img = Image.open(uploaded_file)
