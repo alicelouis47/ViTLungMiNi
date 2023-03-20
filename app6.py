@@ -86,13 +86,13 @@ st.markdown('''
 </style>
 ''', unsafe_allow_html=True)
 
-@st.cache(allow_output_mutation=True,show_spinner=False,ttl=1800,max_entries=2,persist=True)
+@st.cache_resource(show_spinner=False,ttl=1800,max_entries=2)
 def FeatureExtractor(model_name_or_path):
     feature_extractor = ViTImageProcessor.from_pretrained(model_name_or_path)
     return feature_extractor
 
 
-@st.cache(allow_output_mutation=True,show_spinner=False,ttl=1800,max_entries=2,persist=True)
+@st.cache_resource(show_spinner=False,ttl=1800,max_entries=2)
 def LoadModel(model_name_or_path):
     model = ViTForImageClassification.from_pretrained(
         model_name_or_path,
