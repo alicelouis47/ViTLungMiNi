@@ -102,7 +102,7 @@ def LoadModel(model_name_or_path):
         ignore_mismatched_sizes=True)
     return model
 
-
+@st.cache_resource(show_spinner=False,ttl=1800,max_entries=2)
 # Model wrapper to return a tensor
 class HuggingfaceToTensorModelWrapper(torch.nn.Module):
     def __init__(self, model):
