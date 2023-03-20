@@ -102,6 +102,7 @@ def LoadModel(model_name_or_path):
         ignore_mismatched_sizes=True)
     return model
 
+
 # Model wrapper to return a tensor
 class HuggingfaceToTensorModelWrapper(torch.nn.Module):
     def __init__(self, model):
@@ -161,17 +162,38 @@ def count_system():
 st.markdown(
     """
 <div style='border: 2px solid green; border-radius: 5px; padding: 10px; background-color: white;'>
-    <h1 style='text-align: center; color: green;'>🏥 Lung Cancer Classification with Vision Transformer : จำแนกมะเร็งปอด 🫁</h1>
+    <h1 style='text-align: center; color: green;'>
+    🏥 Lung Cancer Classification with Vision Transformer : จำแนกมะเร็งปอด 🫁
+    </h1>
 </div>
     """, unsafe_allow_html=True)
+
+
+
+
 
 with open("assets/css/style.css") as f:
     st.markdown(f"<style> {f.read()} </style>",unsafe_allow_html=True)
 with open("assets/webfonts/font.txt") as f:
     st.markdown(f.read(),unsafe_allow_html=True)
 # end def
+
+
+
+
+
+
+
 with st.sidebar:
-    tabs = on_hover_tabs(tabName=['Home','Upload', 'Analytics', 'More Information'], iconName=['home','upload', 'analytics', 'informations'], styles={'navtab': {'background-color': '#111', 'color': '#818181', 'font-size': '18px', 'transition': '.3s', 'white-space': 'nowrap', 'text-transform': 'uppercase'}, 'tabOptionsStyle': {':hover :hover': {'color': 'red', 'cursor': 'pointer'}}, 'iconStyle': {'position': 'fixed', 'left': '7.5px', 'text-align': 'left'}, 'tabStyle': {'list-style-type': 'none', 'margin-bottom': '30px', 'padding-left': '30px'}}, key="1",default_choice=0)
+    tabs = on_hover_tabs(tabName=['Home','Upload', 'Analytics', 'More Information'], 
+    iconName=['home','upload', 'analytics', 'informations'], 
+    styles={'navtab': {'background-color': '#111', 'color': '#818181', 'font-size': '18px', 
+                    'transition': '.3s', 'white-space': 'nowrap', 'text-transform': 'uppercase'}, 
+                    'tabOptionsStyle': 
+                    {':hover :hover': {'color': 'red', 'cursor': 'pointer'}}, 'iconStyle': 
+                    {'position': 'fixed', 'left': '7.5px', 'text-align': 'left'}, 'tabStyle': 
+                    {'list-style-type': 'none', 'margin-bottom': '30px', 'padding-left': '30px'}}, 
+                    key="1",default_choice=0)
     st.markdown(
     """
         <div style='border: 2px solid green; padding: 10px; white; margin-top: 5px; margin-buttom: 5px; margin-right: 20px; bottom: 50;'>
@@ -180,15 +202,13 @@ with st.sidebar:
             <h1 style='text-align: center; color: green; font-size: 100%'> ประจำปีงบประมาณ 2566 </h1>
         </div>
     """, unsafe_allow_html=True)
-
 data_base = []
-
 if tabs == 'Home':
     st.image('How_to_use.png',use_column_width=True)
-
 elif tabs == 'Upload' and count_system () != 1:
     uploaded_file = st.file_uploader("อัปโหลดไฟล์ภาพ")
     if uploaded_file is not None:
+            model_name_or_path = 'alicelouis/ViTLungMiNi'
             feature_extractor = FeatureExtractor(model_name_or_path)
             model = LoadModel(model_name_or_path)
             img = Image.open(uploaded_file)
@@ -484,6 +504,9 @@ elif tabs == 'Analytics' and count_system() == 0:
                 <h3 style='text-align: center; color: red; font-size: 180%'> 🖼️ Image Analytics Not Detected ❌ </h3>
             </div>
                 """, unsafe_allow_html=True)
+        
+
+
 elif tabs == 'Upload' and count_system() == 1:
     dff_image_path = r'.\save_images\dff_image.png'
     gradcam_image_path = r'.\save_images\gradcam_image.png'
@@ -586,76 +609,31 @@ elif tabs == 'Upload' and count_system() == 1:
     display_images(dff_image_path, gradcam_image_path)
 
 elif tabs == 'More Information':
-    out_load = []
-    with open('className.txt', 'r') as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            out_load.append(line)
-    f.close() 
-    if out_load == []:
         st.markdown(
                     """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Non-find </h3>
-                </div>
-                    """, unsafe_allow_html=True)   
-    elif out_load[0] == 'adenocarcinoma':
-        gradcam_image_path = r'.\save_images\gradcam_image.png'
-        def display_images(gradcam_image_path):
-            if st.button("Refresh",use_container_width=True):
-                os.remove('.\save_images\dff_image.png')
-                os.remove('.\save_images\gradcam_image.png')
-                with open('system.txt', 'w') as file:
-                    file.write('')
-                file.close() 
-                with open('className.txt', 'w') as file:
-                    file.write('')
-                file.close() 
-                st.experimental_rerun()
-            # open the images
-            gradcam_image = Image.open(gradcam_image_path)
-            st.image(gradcam_image, use_column_width=True)
-        display_images(gradcam_image_path)
-        st.markdown(
-                    """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Adenocarcinoma </h3>
+                <div style='border: 2px dashed blue; border-radius: 5px; padding: 5px; background-color: white;'>
+                    <h3 style='text-align: center; color: black; font-size: 180%'> 💻 Organizers 🖱️ </h3>
                 </div>
                     """, unsafe_allow_html=True)          
         st.markdown(
-                    """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Lung adenocarcinoma is a type of non-small cell lung cancer that begins in the glandular cells of the lung. It is the most common type of lung cancer and is often found in people who have never smoked. Here are some key characteristics of lung adenocarcinoma </h3>
+            """
+                <div style="display:flex; justify-content:center; align-items:center;">
+                <img src="https://drive.google.com/uc?export=view&id=1xupbYYXQZzjwMQiVGwT636oCXMga2ETF" style="width:300px; height:200px; margin: 10px;">
+                <img src="https://drive.google.com/uc?export=view&id=1evDy9sDtJ1T_WVR1bUnfyZkeSMjT9pfr" style="width:300px; height:200px; margin: 10px;">
+                <img src="https://drive.google.com/uc?export=view&id=1Sebh31aX8vdNe8P7oyBL714J_0qA5WYt" style="width:300px; height:200px; margin: 10px;">
                 </div>
-                    """, unsafe_allow_html=True)         
+            """, unsafe_allow_html=True)
+        st.markdown(
+            """
+                <div style="display:flex; justify-content:center; align-items:center;">
+                <h3 style="width:300px; height:200px; margin: 10px; font-size: 50% text-align: center;' "> 👑 Santipab Tongchan\nCall : 090-2471512 \n "stdm4522@pccbr.ac.th" </h3>
+                <h3 style="width:300px; height:200px; margin: 10px; font-size: 50% text-align: center;' "> Phakkhaphon Artburai\nCall : 091-0197314 \n "stdm4321@pccbr.ac.th" </h3>
+                <h3 style="width:300px; height:200px; margin: 10px; font-size: 50% text-align: center;' "> Natthawee Naewkumpol\nCall : 061-9487722 \n "stdm4605@pccbr.ac.th" </h3>
+                </div>
+            """, unsafe_allow_html=True)
         st.markdown(
                     """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Adenocarcinoma </h3>
+                <div style='border: 2px solid orange; border-radius: 5px; padding: 5px; background-color: white;'>
+                    <h3 style='text-align: center; color: blue; font-size: 200%'> Princess Chulabhorn Science High School Buriram </h3>
                 </div>
-                    """, unsafe_allow_html=True)    
-    elif out_load[0] == 'large.cell':
-        st.markdown(
-                    """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Large.Cell </h3>
-                </div>
-                    """, unsafe_allow_html=True)     
-    elif out_load[0] == 'normal':
-        st.markdown(
-                    """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Normal </h3>
-                </div>
-                    """, unsafe_allow_html=True)   
-    elif out_load[0] == 'squamous.cell':
-        st.markdown(
-                    """
-                <div style='border: 2px solid red; border-radius: 5px; padding: 5px; background-color: white;'>
-                    <h3 style='text-align: center; color: red; font-size: 180%'> Squamous.Cell </h3>
-                </div>
-                    """, unsafe_allow_html=True)    
-               
-            
+                    """, unsafe_allow_html=True)       
