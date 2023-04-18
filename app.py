@@ -329,39 +329,39 @@ elif tabs == 'Upload': #and count_system () != 1:
             list_to_be_sorted.append(dic)
             data_base.append(y)
         if list_to_be_sorted[0]['name'] == "adenocarcinoma":
-            dff_image.save(r".\Adenocarcinoma\{}".format(name_of_files_new[i]))
+            dff_image.save(r"./Adenocarcinoma/{}".format(name_of_files_new[i]))
             image_path = name_of_files_new[i]
-            with Image.open(r".\Adenocarcinoma\{}".format(image_path)) as image:
+            with Image.open(r"./Adenocarcinoma/{}".format(image_path)) as image:
                 width, height = image.size
                 new_width = 2 * width // 3
                 cropped_image = image.crop((0, 0, new_width, height))
-                cropped_image.save(r".\Adenocarcinoma\{}".format(image_path))
+                cropped_image.save(r"./Adenocarcinoma/{}".format(image_path))
         elif list_to_be_sorted[0]['name'] == "large.cell":
-            dff_image.save(r".\Large cell carcinoma\{}".format(name_of_files_new[i]))
+            dff_image.save(r"./Large cell carcinoma/{}".format(name_of_files_new[i]))
             image_path = name_of_files_new[i]
-            with Image.open(r".\Large cell carcinoma\{}".format(image_path)) as image:
+            with Image.open(r"./Large cell carcinoma/{}".format(image_path)) as image:
                 width, height = image.size
                 new_width = 2 * width // 3
                 cropped_image = image.crop((0, 0, new_width, height))
-                cropped_image.save(r".\Large cell carcinoma\{}".format(image_path))
+                cropped_image.save(r"./Large cell carcinoma/{}".format(image_path))
             #dff_image.save(r".\Large cell carcinoma\{}".format(name_of_files_new[i]))
         elif list_to_be_sorted[0]['name'] == "normal":
-            dff_image.save(r".\Normal\{}".format(name_of_files_new[i]))
+            dff_image.save(r"./Normal/{}".format(name_of_files_new[i]))
             image_path = name_of_files_new[i]
-            with Image.open(r".\Normal\{}".format(image_path)) as image:
+            with Image.open(r"./Normal/{}".format(image_path)) as image:
                 width, height = image.size
                 new_width = 2 * width // 3
                 cropped_image = image.crop((0, 0, new_width, height))
-                cropped_image.save(r".\Normal\{}".format(image_path))
+                cropped_image.save(r"./Normal/{}".format(image_path))
             #dff_image.save(r".\Normal\{}".format(name_of_files_new[i]))
         elif list_to_be_sorted[0]['name'] == "squamous.cell":
-            dff_image.save(r".\Squamous cell carcinoma\{}".format(name_of_files_new[i]))
+            dff_image.save(r"./Squamous cell carcinoma/{}".format(name_of_files_new[i]))
             image_path = name_of_files_new[i]
-            with Image.open(r".\Squamous cell carcinoma\{}".format(image_path)) as image:
+            with Image.open(r"./Squamous cell carcinoma/{}".format(image_path)) as image:
                 width, height = image.size
                 new_width = 2 * width // 3
                 cropped_image = image.crop((0, 0, new_width, height))
-                cropped_image.save(r".\Squamous cell carcinoma\{}".format(image_path))
+                cropped_image.save(r"./Squamous cell carcinoma/{}".format(image_path))
             #dff_image.save(r".\Squamous cell carcinoma\{}".format(name_of_files_new[i]))
         # st.image(dff_image, use_column_width=True)
         # st.image(gradcam_image, use_column_width=True)
