@@ -256,11 +256,11 @@ elif tabs == 'Upload': #and count_system () != 1:
             gray_scale = Image.fromarray(scaled_image)
             final_image = gray_scale.convert('RGB')
             final_image.resize((200,200))
-            final_image.save(r'.\dcm_png\{}.png'.format(name_of_files[i]))                  
+            final_image.save(r'./dcm_png/{}.png'.format(name_of_files[i]))                  
         feature_extractor = FeatureExtractor(model_name_or_path)
         model = LoadModel(model_name_or_path)
         if name_of_files[i].endswith('.dcm'):
-            img = Image.open(r'.\dcm_png\{}.png'.format(name_of_files[i]))
+            img = Image.open(r'./dcm_png/{}.png'.format(name_of_files[i]))
         else:
             img = Image.open(uploaded_file[i])
         img_out = img.resize((224,224))
@@ -317,8 +317,8 @@ elif tabs == 'Upload': #and count_system () != 1:
                                     reshape_transform=reshape_transform_vit_huggingface,
                                     n_components=4,
                                     top_k=4))
-        # dff_image.save(r".\save_images\dff_image.png")
-        # gradcam_image.save(r".\save_images\gradcam_image.png")
+        # dff_image.save(r"./save_images/dff_image.png")
+        # gradcam_image.save(r"./save_images/gradcam_image.png")
         topK = print_top_categories(model, tensor_resized)
         df = pd.DataFrame.from_dict(topK, orient='index')
         list_to_be_sorted= []
@@ -353,7 +353,7 @@ elif tabs == 'Upload': #and count_system () != 1:
                 new_width = 2 * width // 3
                 cropped_image = image.crop((0, 0, new_width, height))
                 cropped_image.save(r"./Normal/{}".format(image_path))
-            #dff_image.save(r".\Normal\{}".format(name_of_files_new[i]))
+            #dff_image.save(r"./Normal/{}".format(name_of_files_new[i]))
         elif list_to_be_sorted[0]['name'] == "squamous.cell":
             dff_image.save(r"./Squamous cell carcinoma/{}".format(name_of_files_new[i]))
             image_path = name_of_files_new[i]
@@ -378,7 +378,7 @@ elif tabs == 'Upload': #and count_system () != 1:
     with col1:
         st.markdown("<h2 style='text-align: center; border: 2px solid #5370c6; border-radius: 5px; padding: 15px; background-color: white; color: black;' > Adenocarcinoma </h2>".format(centered_style), unsafe_allow_html=True)
         # Add the second subheader to the second column
-        folder_path = r".\Adenocarcinoma"
+        folder_path = r"./Adenocarcinoma"
         image_files = [f for f in os.listdir(folder_path) if f.endswith('.png') or f.endswith('.jpg')]
         # Display the images in a loop
         for i in range(0, len(image_files), 2):
@@ -397,7 +397,7 @@ elif tabs == 'Upload': #and count_system () != 1:
                     count_classes.append("Adeno")
     with col2:
         st.markdown("<h2 style='text-align: center; border: 2px solid green; border-radius: 5px; padding: 15px; background-color: white; color: black;' > Normal </h2>".format(centered_style), unsafe_allow_html=True)
-        folder_path = r".\Normal"
+        folder_path = r"./Normal"
         image_files = [f for f in os.listdir(folder_path) if f.endswith('.png') or f.endswith('.jpg')]
         # Display the images in a loop
         for i in range(0, len(image_files), 2):
@@ -421,7 +421,7 @@ elif tabs == 'Upload': #and count_system () != 1:
 
     with col5:
         st.markdown("<h2 style='text-align: center; border: 2px solid orange; border-radius: 5px; padding: 15px; background-color: white; color: black;' > Large cell carcinoma </h2>".format(centered_style), unsafe_allow_html=True)
-        folder_path = r".\Large cell carcinoma"
+        folder_path = r"./Large cell carcinoma"
         image_files = [f for f in os.listdir(folder_path) if f.endswith('.png') or f.endswith('.jpg')]
         # Display the images in a loop
         for i in range(0, len(image_files), 2):
@@ -440,7 +440,7 @@ elif tabs == 'Upload': #and count_system () != 1:
                     count_classes.append("Large")
     with col6:
         st.markdown("<h2 style='text-align: center; border: 2px solid #f16565; border-radius: 5px; padding: 15px; background-color: white; color: black;' >  Squamous cell carcinoma </h2>".format(centered_style), unsafe_allow_html=True)
-        folder_path = r".\Squamous cell carcinoma"
+        folder_path = r"./Squamous cell carcinoma"
         image_files = [f for f in os.listdir(folder_path) if f.endswith('.png') or f.endswith('.jpg')]
         # Display the images in a loop
         for i in range(0, len(image_files), 2):
